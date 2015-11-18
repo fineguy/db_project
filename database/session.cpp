@@ -122,7 +122,7 @@ QSqlQueryModel *Session::professors(QString &chair) {
     if (open_connection()) {
         QSqlQueryModel *prof_model = new QSqlQueryModel();
         QSqlQuery *query = new QSqlQuery(db);
-        QString statement = "SELECT '' UNION SELECT 'id:' || p.id || ' ' || p.first_name || ' ' || p.last_name "
+        QString statement = "SELECT '' UNION SELECT p.id || ' ' || p.first_name || ' ' || p.last_name "
                             "FROM Professors AS p, Roster AS r, Chairs AS c  "
                             "WHERE p.id == r.id AND r.code == c.code AND c.name == ?";
 
@@ -149,6 +149,7 @@ QSqlQuery *Session::department_info(QString &department) {
         dep_query->next();
 
         qDebug() << dep_query->lastQuery();
+        close_connection();
         return dep_query;
     } else {
         qDebug() << "Couldn't connect to the database";
@@ -165,6 +166,7 @@ QSqlQuery *Session::chair_info(QString &chair) {
         chr_query->next();
 
         qDebug() << chr_query->lastQuery();
+        close_connection();
         return chr_query;
     } else {
         qDebug() << "Couldn't connect to the database";
@@ -176,15 +178,83 @@ QSqlQuery *Session::prof_info(QString &professor) {
     if (open_connection()) {
         QSqlQuery *prof_query = new QSqlQuery(db);
         prof_query->prepare("SELECT first_name, last_name, record, sex FROM Professors WHERE id == ?");
-        qDebug() << professor.split(" ")[0].toInt();
         prof_query->bindValue(0, professor.split(" ")[0].toInt());
         prof_query->exec();
         prof_query->next();
 
         qDebug() << prof_query->lastQuery();
+        close_connection();
         return prof_query;
     } else {
         qDebug() << "Couldn't connect to the database";
         return NULL;
+    }
+}
+
+bool Session::insert_department(int depKey, QString depName, QString depFName, QString depLName) {
+    if (open_connection()) {
+        QSqlQuery query(db);
+        query.prepare("INSERT INTO Departments (key, name, first_name, last_name) VALUES (?, ?, ?, ?)");
+        query.bindValue(0, depKey);
+        query.bindValue(1, depName);
+        query.bindValue(2, depFName);
+        query.bindValue(3, depLName);
+
+        bool result = query.exec();
+        qDebug() << query.lastQuery();
+        close_connection();
+        return result;
+    } else {
+        qDebug() << "Couldn't connect to the database";
+        return false;
+    }
+}
+
+bool Session::insert_chair(int depKey, int chrCode, QString chrName) {
+    if (open_connection()) {
+        QSqlQuery query(db);
+        query.prepare("INSERT INTO Chairs (code, name, key) VALUES (?, ?, ?)");
+        query.bindValue(0, chrCode);
+        query.bindValue(1, chrName);
+        query.bindValue(2, depKey);
+
+        bool result = query.exec();
+        qDebug() << query.lastQuery();
+        close_connection();
+        return result;
+    } else {
+        qDebug() << "Couldn't connect to the database";
+        return false;
+    }
+}
+
+bool Session::insert_professor(int chrCode, QString profFName, QString profLName, QString profRec, QString profSex) {
+    if (open_connection()) {
+        QSqlQuery profQuery(db);
+        QSqlQuery query(db);
+
+        query.exec("SELECT COUNT (*) FROM Professors");
+        query.next();
+        int index = query.value(0).toInt();
+
+        profQuery.prepare("INSERT INTO Professors (id, first_name, last_name, record, sex) VALUES (?, ?, ?, ?, ?)");
+        profQuery.bindValue(0, index + 1);
+        profQuery.bindValue(1, profFName);
+        profQuery.bindValue(2, profLName);
+        profQuery.bindValue(3, profRec);
+        profQuery.bindValue(4, profSex);
+
+        QSqlQuery rosterQuery(db);
+        rosterQuery.prepare("INSERT INTO Roster (id, code) VALUES (?, ?)");
+        rosterQuery.bindValue(0, index + 1);
+        rosterQuery.bindValue(1, chrCode);
+
+        bool result = profQuery.exec() && rosterQuery.exec();
+        qDebug() << profQuery.lastQuery();
+        close_connection();
+        return result;
+    } else {
+        qDebug() << "Couldn't connect to the database";
+        return false;
     }
 }

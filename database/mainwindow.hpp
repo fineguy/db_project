@@ -32,7 +32,14 @@ private slots:
 private:
     Ui::MainWindow *ui;
     Session session;
-    QString all = "";
+
+    void update_table();
+    void update_deps();
+    void update_chrs();
+    void update_profs();
+    void update_deps_editor();
+    void update_chrs_editor();
+    void update_profs_editor();
 };
 
 #endif // MAINWINDOW_HPP

@@ -84,7 +84,7 @@
       <property name="geometry">
        <rect>
         <x>210</x>
-        <y>340</y>
+        <y>440</y>
         <width>115</width>
         <height>32</height>
        </rect>
@@ -99,123 +99,191 @@
         <x>10</x>
         <y>20</y>
         <width>501</width>
-        <height>305</height>
+        <height>371</height>
        </rect>
       </property>
-      <layout class="QGridLayout" name="gridLayout" columnstretch="1,1,1">
+      <layout class="QGridLayout" name="gridLayout" columnstretch="1,0,0">
        <property name="sizeConstraint">
         <enum>QLayout::SetNoConstraint</enum>
        </property>
-       <item row="0" column="0">
-        <widget class="QComboBox" name="depEditorBox"/>
-       </item>
-       <item row="0" column="1">
-        <widget class="QLabel" name="depKeyLabel">
-         <property name="text">
-          <string>Key</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="2">
-        <widget class="QLineEdit" name="depKeyEdit"/>
-       </item>
-       <item row="1" column="1">
-        <widget class="QLabel" name="depNameLabel">
-         <property name="text">
-          <string>Name</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="2">
-        <widget class="QLineEdit" name="depNameEdit"/>
-       </item>
-       <item row="2" column="1">
-        <widget class="QLabel" name="depFNameLabel">
-         <property name="text">
-          <string>Dean's first name</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="2">
-        <widget class="QLineEdit" name="depFNameEdit"/>
+       <property name="verticalSpacing">
+        <number>0</number>
+       </property>
+       <item row="4" column="2">
+        <widget class="QLineEdit" name="chrCodeEdit"/>
        </item>
        <item row="3" column="1">
         <widget class="QLabel" name="debLNameLabel">
          <property name="text">
           <string>Dean's last name</string>
          </property>
-        </widget>
-       </item>
-       <item row="3" column="2">
-        <widget class="QLineEdit" name="depLNameEdit"/>
-       </item>
-       <item row="4" column="0">
-        <widget class="QComboBox" name="chrEditorBox"/>
-       </item>
-       <item row="4" column="1">
-        <widget class="QLabel" name="chrCodeLabel">
-         <property name="text">
-          <string>Code</string>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
          </property>
         </widget>
-       </item>
-       <item row="4" column="2">
-        <widget class="QLineEdit" name="chrCodeEdit"/>
        </item>
        <item row="5" column="1">
         <widget class="QLabel" name="chrNameLabel">
          <property name="text">
           <string>Name</string>
          </property>
-        </widget>
-       </item>
-       <item row="5" column="2">
-        <widget class="QLineEdit" name="chrNameEdit"/>
-       </item>
-       <item row="6" column="0">
-        <widget class="QComboBox" name="profEditorBox"/>
-       </item>
-       <item row="6" column="1">
-        <widget class="QLabel" name="profFNameLabel">
-         <property name="text">
-          <string>Professor's first name</string>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
          </property>
         </widget>
        </item>
-       <item row="6" column="2">
-        <widget class="QLineEdit" name="profFNameEdit"/>
-       </item>
-       <item row="7" column="1">
-        <widget class="QLabel" name="profLNameLabel">
-         <property name="text">
-          <string>Professor's last name</string>
-         </property>
-        </widget>
+       <item row="3" column="2">
+        <widget class="QLineEdit" name="depLNameEdit"/>
        </item>
        <item row="7" column="2">
         <widget class="QLineEdit" name="profLNameEdit"/>
-       </item>
-       <item row="8" column="1">
-        <widget class="QLabel" name="profRecLabel">
-         <property name="text">
-          <string>Record</string>
-         </property>
-        </widget>
-       </item>
-       <item row="8" column="2">
-        <widget class="QLineEdit" name="profRecEdit"/>
        </item>
        <item row="9" column="1">
         <widget class="QLabel" name="profSexLabel">
          <property name="text">
           <string>Sex</string>
          </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
         </widget>
+       </item>
+       <item row="8" column="2">
+        <widget class="QLineEdit" name="profRecEdit"/>
+       </item>
+       <item row="6" column="2">
+        <widget class="QLineEdit" name="profFNameEdit"/>
+       </item>
+       <item row="6" column="1">
+        <widget class="QLabel" name="profFNameLabel">
+         <property name="text">
+          <string>Professor's first name</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QLabel" name="chrCodeLabel">
+         <property name="text">
+          <string>Code</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <widget class="QLineEdit" name="depNameEdit"/>
+       </item>
+       <item row="5" column="2">
+        <widget class="QLineEdit" name="chrNameEdit"/>
+       </item>
+       <item row="7" column="1">
+        <widget class="QLabel" name="profLNameLabel">
+         <property name="text">
+          <string>Professor's last name</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0">
+        <widget class="QComboBox" name="profEditorBox"/>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLabel" name="depKeyLabel">
+         <property name="text">
+          <string>Key</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QComboBox" name="chrEditorBox"/>
+       </item>
+       <item row="0" column="2">
+        <widget class="QLineEdit" name="depKeyEdit"/>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLabel" name="depFNameLabel">
+         <property name="text">
+          <string>Dean's first name</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="2">
+        <widget class="QLineEdit" name="depFNameEdit"/>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLabel" name="depNameLabel">
+         <property name="text">
+          <string>Name</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QComboBox" name="depEditorBox"/>
        </item>
        <item row="9" column="2">
         <widget class="QLineEdit" name="profSexEdit"/>
        </item>
+       <item row="8" column="1">
+        <widget class="QLabel" name="profRecLabel">
+         <property name="text">
+          <string>Record</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
       </layout>
+     </widget>
+     <widget class="QGroupBox" name="groupBox">
+      <property name="geometry">
+       <rect>
+        <x>529</x>
+        <y>10</y>
+        <width>171</width>
+        <height>321</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Tips</string>
+      </property>
+      <widget class="QLabel" name="ExplanationLabel">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>30</y>
+         <width>141</width>
+         <height>281</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Press &amp;quot;edit&amp;quot; only when you're ready to submit changes.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;1) Leave any drop-down list selection empty and fill out the info to add a new corresponding entry.&lt;/p&gt;&lt;p&gt;2) Change the existing entries data to update them.&lt;/p&gt;&lt;p&gt;3) Leave any of the fields empty to delete the corresponding entry.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="textFormat">
+        <enum>Qt::RichText</enum>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+      </widget>
      </widget>
     </widget>
    </widget>
