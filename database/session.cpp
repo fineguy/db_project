@@ -17,6 +17,7 @@ bool Session::open_connection() {
 void Session::close_connection() {
     db.close();
     db.removeDatabase(QSqlDatabase::defaultConnection);
+    qDebug() << "Closed connection";
 }
 
 int Session::login(QString username, QString password) {
@@ -117,23 +118,71 @@ QSqlQueryModel *Session::table(QString &department, QString &chair) {
     }
 }
 
-QSqlQueryModel *Session::professors(QString &department, QString &chair) {
+QSqlQueryModel *Session::professors(QString &chair) {
     if (open_connection()) {
         QSqlQueryModel *prof_model = new QSqlQueryModel();
         QSqlQuery *query = new QSqlQuery(db);
-        QString statement = "SELECT p.id || ' ' || p.first_name || ' ' || p.last_name "
-                            "FROM Professors AS p, Roster AS r,Chairs AS c, Departments AS d  "
-                            "WHERE p.id == r.id AND r.code == c.code AND c.key == d.key AND c.name == ? AND d.name == ?";
+        QString statement = "SELECT '' UNION SELECT 'id:' || p.id || ' ' || p.first_name || ' ' || p.last_name "
+                            "FROM Professors AS p, Roster AS r, Chairs AS c  "
+                            "WHERE p.id == r.id AND r.code == c.code AND c.name == ?";
 
         query->prepare(statement);
         query->bindValue(0, chair);
-        query->bindValue(1, department);
 
         query->exec();
         prof_model->setQuery(*query);
 
         close_connection();
         return prof_model;
+    } else {
+        qDebug() << "Couldn't connect to the database";
+        return NULL;
+    }
+}
+
+QSqlQuery *Session::department_info(QString &department) {
+    if (open_connection()) {
+        QSqlQuery *dep_query = new QSqlQuery(db);
+        dep_query->prepare("SELECT * FROM Departments WHERE name == ?");
+        dep_query->bindValue(0, department);
+        dep_query->exec();
+        dep_query->next();
+
+        qDebug() << dep_query->lastQuery();
+        return dep_query;
+    } else {
+        qDebug() << "Couldn't connect to the database";
+        return NULL;
+    }
+}
+
+QSqlQuery *Session::chair_info(QString &chair) {
+    if (open_connection()) {
+        QSqlQuery *chr_query = new QSqlQuery(db);
+        chr_query->prepare("SELECT * FROM Chairs WHERE name == ?");
+        chr_query->bindValue(0, chair);
+        chr_query->exec();
+        chr_query->next();
+
+        qDebug() << chr_query->lastQuery();
+        return chr_query;
+    } else {
+        qDebug() << "Couldn't connect to the database";
+        return NULL;
+    }
+}
+
+QSqlQuery *Session::prof_info(QString &professor) {
+    if (open_connection()) {
+        QSqlQuery *prof_query = new QSqlQuery(db);
+        prof_query->prepare("SELECT first_name, last_name, record, sex FROM Professors WHERE id == ?");
+        qDebug() << professor.split(" ")[0].toInt();
+        prof_query->bindValue(0, professor.split(" ")[0].toInt());
+        prof_query->exec();
+        prof_query->next();
+
+        qDebug() << prof_query->lastQuery();
+        return prof_query;
     } else {
         qDebug() << "Couldn't connect to the database";
         return NULL;

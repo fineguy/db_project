@@ -19,15 +19,15 @@ public:
 private slots:
     void on_depBox_currentIndexChanged(const QString &arg1);
 
-    void on_showButton_clicked();
-
-    void on_editButton_clicked();
-
     void on_chrBox_currentIndexChanged(const QString &arg1);
 
-    void on_depBoxEditor_currentIndexChanged(const QString &arg1);
+    void on_depEditorBox_currentIndexChanged(const QString &arg1);
 
-    void on_chrBoxEditor_currentIndexChanged(const QString &arg1);
+    void on_chrEditorBox_currentIndexChanged(const QString &arg1);
+
+    void on_profEditorBox_currentIndexChanged(const QString &arg1);
+
+    void on_editButton_clicked();
 
 private:
     Ui::MainWindow *ui;
