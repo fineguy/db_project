@@ -80,19 +80,6 @@
        <string>[+] Status</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="editButton">
-      <property name="geometry">
-       <rect>
-        <x>200</x>
-        <y>480</y>
-        <width>115</width>
-        <height>32</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Edit</string>
-      </property>
-     </widget>
      <widget class="QGroupBox" name="tipsGroupBox">
       <property name="geometry">
        <rect>
@@ -115,7 +102,7 @@
         </rect>
        </property>
        <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Press &amp;quot;edit&amp;quot; only when you're ready to submit changes.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;1) Leave any drop-down list selection empty and fill out the info to add a new corresponding entry.&lt;/p&gt;&lt;p&gt;2) Change the existing entries data to update them.&lt;/p&gt;&lt;p&gt;3) Leave any of the fields empty to delete the corresponding entry.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Press buttons only when you're ready to submit changes.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;1) Leave any drop-down list selection empty and fill out the info to add a new corresponding entry.&lt;/p&gt;&lt;p&gt;2) Change the existing entries data to update them.&lt;/p&gt;&lt;p&gt;3) Select anything from a drop-down list to delete the corresponding entry.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="textFormat">
         <enum>Qt::RichText</enum>
@@ -338,6 +325,39 @@
            </item>
           </layout>
          </widget>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="">
+      <property name="geometry">
+       <rect>
+        <x>110</x>
+        <y>470</y>
+        <width>271</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="buttonsLayout" stretch="1,1,1">
+       <item>
+        <widget class="QPushButton" name="addButton">
+         <property name="text">
+          <string>Add</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="editButton">
+         <property name="text">
+          <string>Update</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="delButton">
+         <property name="text">
+          <string>Delete</string>
+         </property>
         </widget>
        </item>
       </layout>

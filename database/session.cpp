@@ -228,7 +228,7 @@ bool Session::insert_chair(int depKey, int chrCode, QString chrName) {
     }
 }
 
-bool Session::insert_professor(int chrCode, QString profFName, QString profLName, QString profRec, QString profSex) {
+bool Session::insert_professor(int chrCode, QString profFName, QString profLName, int profRec, QString profSex) {
     if (open_connection()) {
         QSqlQuery profQuery(db);
         QSqlQuery query(db);
@@ -251,6 +251,136 @@ bool Session::insert_professor(int chrCode, QString profFName, QString profLName
 
         bool result = profQuery.exec() && rosterQuery.exec();
         qDebug() << profQuery.lastQuery();
+        close_connection();
+        return result;
+    } else {
+        qDebug() << "Couldn't connect to the database";
+        return false;
+    }
+}
+
+bool Session::update_department(QString curDepName, int depKey, QString depName, QString depFName, QString depLName) {
+    if (open_connection()) {
+        QSqlQuery query(db);
+        QString statement = "UPDATE Departments "
+                            "SET key = ?, name = ?, first_name = ?, last_name = ? "
+                            "WHERE name = ?";
+        query.prepare(statement);
+        query.bindValue(0, depKey);
+        query.bindValue(1, depName);
+        query.bindValue(2, depFName);
+        query.bindValue(3, depLName);
+        query.bindValue(4, curDepName);
+
+        bool result = query.exec();
+        qDebug() << query.lastQuery();
+        close_connection();
+        return result;
+    } else {
+        qDebug() << "Couldn't connect to the database";
+        return false;
+    }
+}
+
+bool Session::update_chair(int depKey, int chrCode, QString chrName) {
+    if (open_connection()) {
+        QSqlQuery query(db);
+        QString statement = "UPDATE Chairs "
+                            "SET code = ?, name = ? "
+                            "WHERE key == ?";
+        query.prepare(statement);
+        query.bindValue(0, chrCode);
+        query.bindValue(1, chrName);
+        query.bindValue(2, depKey);
+
+        QSqlQuery rosterQuery(db);
+        rosterQuery.prepare("UPDATE Roster as r, Chairs as c SET r.code = ? WHERE r.code == c.code AND c.key == ?");
+        rosterQuery.bindValue(0, chrCode);
+        rosterQuery.bindValue(1, depKey);
+
+        bool result = query.exec();
+        qDebug() << query.lastQuery();
+        close_connection();
+        return result;
+    } else {
+        qDebug() << "Couldn't connect to the database";
+        return false;
+    }
+}
+
+bool Session::update_professor(QString prof, QString profFName, QString profLName, int profRec, QString profSex) {
+    if (open_connection()) {
+        QSqlQuery query(db);
+        QString statement = "UPDATE Professors "
+                            "SET first_name = ?, last_name = ?, record = ?, sex = ? "
+                            "WHERE id = ?";
+        query.prepare(statement);
+        query.bindValue(0, profFName);
+        query.bindValue(1, profLName);
+        query.bindValue(2, profRec);
+        query.bindValue(3, profSex);
+        query.bindValue(4, prof.split(" ")[0].toInt());
+
+        bool result = query.exec();
+        qDebug() << query.lastQuery();
+        close_connection();
+        return result;
+    } else {
+        qDebug() << "Couldn't connect to the database";
+        return false;
+    }
+}
+
+bool Session::delete_department(QString dep) {
+    if (open_connection()) {
+        QSqlQuery query(db);
+        QString statement = "DELETE FROM Departments "
+                            "WHERE name == ?";
+        query.prepare(statement);
+        query.bindValue(0, dep);
+
+        bool result = query.exec();
+        qDebug() << query.lastQuery();
+        close_connection();
+        return result;
+    } else {
+        qDebug() << "Couldn't connect to the database";
+        return false;
+    }
+}
+
+bool Session::delete_chair(QString chr) {
+    if (open_connection()) {
+        QSqlQuery query(db);
+        QString statement = "DELETE FROM Chairs "
+                            "WHERE name = ?";
+        query.prepare(statement);
+        query.bindValue(0, chr);
+
+        bool result = query.exec();
+        qDebug() << query.lastQuery();
+        close_connection();
+        return result;
+    } else {
+        qDebug() << "Couldn't connect to the database";
+        return false;
+    }
+}
+
+bool Session::delete_professor(QString prof) {
+    if (open_connection()) {
+        QSqlQuery query(db);
+        QString statement = "DELETE FROM Professors "
+                            "WHERE id = ?";
+        query.prepare(statement);
+        query.bindValue(0, prof.split(" ")[0].toInt());
+
+        QSqlQuery rosterQuery(db);
+        rosterQuery.prepare("DELETE FROM Roster WHERE id = ?");
+        rosterQuery.bindValue(0, prof.split(" ")[0].toInt());
+
+        bool result = query.exec() & rosterQuery.exec();
+        qDebug() << query.lastQuery();
         close_connection();
         return result;
     } else {
