@@ -19,3 +19,6 @@ There are two screens seen for the user after successful login. The first one is
 * Add – by specifying a table and all related data, the user creates a new entry to the table.
 * Edit – modifies an existing entry in the specified table.
 * Remove – deletes an entry.
+
+## Run the program
+Copy this repository, qmake the .pro file and make the created Makefile. Or use Qt Creator (preferred). Don't forget to change the PATH_TO_DATABASE variable in consts.hpp to wherever you will store the faculty.db file.
