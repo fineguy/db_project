@@ -7,6 +7,7 @@ There are different departments, chairs and professors at our university. The us
 
 ## Database structure
 There are five tables in the faculty database:
+
 1. Users table – used to store usernames and logins. Immutable.
 2. Departments table – holds info about Deans' names, keys and department names.
 3. Chairs table – holds info about names of chairs and keys of their respectful departments.
