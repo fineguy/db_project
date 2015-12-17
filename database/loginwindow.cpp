@@ -36,11 +36,11 @@ void LoginWindow::on_LoginButton_clicked()
 
     int status = session.login(username, password);
 
-    if (status == 0) {
+    if (status == NO_CONNECTION) {
         this->hide();
         MainWindow *mainwindow = new MainWindow();
         mainwindow->show();
-    } else if (status == 1){
+    } else if (status == FAILURE){
         ui->statusLabel->setText("Wrong username and/or password");
     } else {
         ui->statusLabel->setText("Lost connection");

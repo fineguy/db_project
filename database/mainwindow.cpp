@@ -1,4 +1,3 @@
-
 #include "mainwindow.hpp"
 #include "ui_mainwindow.h"
 #include <QtSql>
@@ -108,7 +107,7 @@ void MainWindow::on_editButton_clicked()
     }
 
     if (chr != "") {
-        if (session.update_chair(depKey, chrCode, chrName)) {
+        if (session.update_chair(chrCode, chrName, chr)) {
             QMessageBox::critical(this, "Updated", "The "+chr+" department entry was updated");
             load_chrs();
             load_chrs_editor();
@@ -163,7 +162,7 @@ void MainWindow::on_addButton_clicked()
             ui->statusLabelEditor->setText("Make sure you filled all info for new chair");
         } else {
             if (session.insert_chair(depKey, chrCode, chrName)) {
-                QMessageBox::critical(this, "Created", "New department entry was created");
+                QMessageBox::critical(this, "Created", "New chair entry was created");
                 load_chrs();
                 load_chrs_editor();
             } else {

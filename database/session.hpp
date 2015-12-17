@@ -5,6 +5,8 @@
 #include <QDebug>
 #include <QFileInfo>
 
+enum {NO_CONNECTION, SUCCESS, FAILURE};
+
 class Session {
     QSqlDatabase db;
 
@@ -28,7 +30,7 @@ public:
     bool insert_professor(int chrCode, QString profFName, QString profLName, int profRec, QString profSex);
 
     bool update_department(QString curDepName, int depKey, QString depName, QString depFName, QString depLName);
-    bool update_chair(int depKey, int chrCode, QString chrName);
+    bool update_chair(int chrCode, QString chrName, QString curChrName);
     bool update_professor(QString prof, QString profFName, QString profLName, int profRec, QString profSex);
 
     bool delete_department(QString dep);

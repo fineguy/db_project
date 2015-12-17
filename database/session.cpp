@@ -34,18 +34,20 @@ int Session::login(QString username, QString password) {
                 count = loginQuery.value(0).toInt();
 
             if (count == 1)
-                return 0;
+                return SUCCESS;
             else
-                return 1;
+                return FAILURE;
 
         } else {
             qDebug() << loginQuery.lastError();
-            return -1;
+            return NO_CONNECTION;
         }
+
+        qDebug() << loginQuery.lastQuery();
         close_connection();
     } else {
         qDebug() << "Couldn't connect to the database";
-        return -1;
+        return NO_CONNECTION;
     }
 }
 
@@ -250,7 +252,7 @@ bool Session::insert_professor(int chrCode, QString profFName, QString profLName
         rosterQuery.bindValue(1, chrCode);
 
         bool result = profQuery.exec() && rosterQuery.exec();
-        qDebug() << profQuery.lastQuery();
+        qDebug() << profQuery.lastQuery() << rosterQuery.lastQuery();
         close_connection();
         return result;
     } else {
@@ -272,8 +274,13 @@ bool Session::update_department(QString curDepName, int depKey, QString depName,
         query.bindValue(3, depLName);
         query.bindValue(4, curDepName);
 
-        bool result = query.exec();
-        qDebug() << query.lastQuery();
+        QSqlQuery chairQuery(db);
+        chairQuery.prepare("UPDATE Chairs SET key = ? WHERE key IN (SELECT key FROM Departments WHERE name = ?)");
+        chairQuery.bindValue(0, depKey);
+        chairQuery.bindValue(1, curDepName);
+
+        bool result = chairQuery.exec() & query.exec();
+        qDebug() << chairQuery.lastQuery() << query.lastQuery();
         close_connection();
         return result;
     } else {
@@ -282,24 +289,24 @@ bool Session::update_department(QString curDepName, int depKey, QString depName,
     }
 }
 
-bool Session::update_chair(int depKey, int chrCode, QString chrName) {
+bool Session::update_chair(int chrCode, QString chrName, QString curChrName) {
     if (open_connection()) {
         QSqlQuery query(db);
         QString statement = "UPDATE Chairs "
                             "SET code = ?, name = ? "
-                            "WHERE key == ?";
+                            "WHERE name = ?";
         query.prepare(statement);
         query.bindValue(0, chrCode);
         query.bindValue(1, chrName);
-        query.bindValue(2, depKey);
+        query.bindValue(2, curChrName);
 
         QSqlQuery rosterQuery(db);
-        rosterQuery.prepare("UPDATE Roster as r, Chairs as c SET r.code = ? WHERE r.code == c.code AND c.key == ?");
+        rosterQuery.prepare("UPDATE Roster SET code = ? WHERE code IN (SELECT code FROM Chairs WHERE name = ?)");
         rosterQuery.bindValue(0, chrCode);
-        rosterQuery.bindValue(1, depKey);
+        rosterQuery.bindValue(1, curChrName);
 
-        bool result = query.exec();
-        qDebug() << query.lastQuery();
+        bool result = rosterQuery.exec() && query.exec();
+        qDebug() << rosterQuery.lastQuery() << query.lastQuery();
         close_connection();
         return result;
     } else {
