@@ -36,7 +36,7 @@ void LoginWindow::on_LoginButton_clicked()
 
     int status = session.login(username, password);
 
-    if (status == NO_CONNECTION) {
+    if (status == SUCCESS) {
         this->hide();
         MainWindow *mainwindow = new MainWindow();
         mainwindow->show();
